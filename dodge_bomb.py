@@ -43,12 +43,16 @@ def main():
     bb_rct.centerx =random.randint(0,WIDTH)
     bb_rct.centery =random.randint(0,HEIGHT)
     bb_img.set_colorkey((0,0,0))
-    vx,vy=+50,+50
+    vx,vy=+50,+55
     
     while True:
         for event in pg.event.get():
             if event.type == pg.QUIT: 
                 return
+            
+        if kk_rct.colliderect(bb_rct):
+            print("お前の負け")
+            return
         screen.blit(bg_img, [0, 0])
 
         key_lst = pg.key.get_pressed()
