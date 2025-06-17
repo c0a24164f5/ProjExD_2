@@ -8,12 +8,14 @@ import pygame as pg
 WIDTH, HEIGHT = 1100, 650
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
+
 DELTA = { #移動量辞書
     pg.K_UP:(0,-5),
     pg.K_DOWN:(0,+5),
     pg.K_LEFT:(-5,0),
     pg.K_RIGHT:(+5,0),
 }
+
 
 def check_bound(rct:pg.Rect)-> tuple[bool,bool]:
     """
@@ -27,6 +29,7 @@ def check_bound(rct:pg.Rect)-> tuple[bool,bool]:
     if rct.top<0 or HEIGHT<rct.bottom:
         tate=False
     return yoko,tate
+
 
 def create_bb_assets() -> tuple[list[pg.Surface], list[int]]:
     """
@@ -44,6 +47,7 @@ def create_bb_assets() -> tuple[list[pg.Surface], list[int]]:
 
     return bb_imgs, bb_accs
 
+
 def show_game_over(screen: pg.Surface, kk_rct: pg.Rect):
     """
     ゲームオーバー時の画面演出を行う関数
@@ -51,15 +55,15 @@ def show_game_over(screen: pg.Surface, kk_rct: pg.Rect):
     """
 
     blackout = pg.Surface((WIDTH, HEIGHT))  
-    blackout.set_alpha(210)  #半透明の黒で画面を覆う
-    pg.draw.rect(blackout, (0, 0, 0), (0, 0, WIDTH, HEIGHT))  # 四角を描画
+    blackout.set_alpha(130)  #半透明の黒で画面を覆う
+    pg.draw.rect(blackout, (190, 0, 0), (0, 0, WIDTH, HEIGHT))  # 四角を描画
     screen.blit(blackout, (0, 0))  # 画面に貼り付け
 
     sad_img = pg.image.load("fig/8.png")  #泣いているこうかとん画像を表示
     sad_img = pg.transform.rotozoom(sad_img, 0, 0.9)
 
     font = pg.font.SysFont(None, 100)  #Game Overテキストを表示
-    text = font.render("Game Over", True, (255, 255, 255))  #色
+    text = font.render("You are dead", True, (255, 0, 0))  #色
     text_rct = text.get_rect(center=(WIDTH / 2, HEIGHT /2))  #画面中央に配置
     screen.blit(text, text_rct)
     
@@ -70,6 +74,7 @@ def show_game_over(screen: pg.Surface, kk_rct: pg.Rect):
 
     pg.display.update() #画面切り替え
     time.sleep(5) #５秒間表示
+
 
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
@@ -131,13 +136,13 @@ def main():
         if not tate:
             vy *= -1
 
-        screen.blit(bg_img, (0, 0))
+        screen.blit(bg_img, (0, 0))  #描画
         screen.blit(bb_img, bb_rct)
         screen.blit(kk_img, kk_rct)
         pg.display.update()
 
         tmr += 1
-        clock.tick(50)
+        clock.tick(50)  #FPS値
 
 
 if __name__ == "__main__":
